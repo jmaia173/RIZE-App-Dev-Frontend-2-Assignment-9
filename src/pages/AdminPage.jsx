@@ -1,16 +1,27 @@
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useArticles } from '../context/ArticlesContext';
+
 function AdminPage() {
-  // Check if a user is an admin and return all users' saved articles if they are. Redirect them to home if not.
+  const { isAdmin } = useAuth();
+  const { getAllUserArticles } = useArticles();
+
+  if (!isAdmin()) {
+    return <Navigate to="/" replace />;
+  }
+
+  const allUserArticles = getAllUserArticles();
 
   return (
     <div>
       <h2 className="page-heading">Admin Dashboard</h2>
-      
-      <div style={{ 
-        background: '#fff3cd', 
-        border: '1px solid #ffc107', 
-        borderRadius: '6px', 
-        padding: '16px', 
-        marginBottom: '24px' 
+
+      <div style={{
+        background: '#fff3cd',
+        border: '1px solid #ffc107',
+        borderRadius: '6px',
+        padding: '16px',
+        marginBottom: '24px'
       }}>
         <p style={{ margin: 0, color: '#856404' }}>
           Admin View: You can see all users' saved articles
@@ -25,26 +36,26 @@ function AdminPage() {
         <div>
           {Object.entries(allUserArticles).map(([username, articles]) => (
             <div key={username} style={{ marginBottom: '32px' }}>
-              <h3 style={{ 
-                color: '#333', 
-                borderBottom: '2px solid #e0e0e0', 
+              <h3 style={{
+                color: '#333',
+                borderBottom: '2px solid #e0e0e0',
                 paddingBottom: '8px',
                 marginBottom: '16px'
               }}>
                 {username}'s Saved Articles ({articles.length})
               </h3>
-              
+
               {articles.length === 0 ? (
                 <p style={{ color: '#666', marginLeft: '16px' }}>No saved articles</p>
               ) : (
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
                   gap: '16px',
                   marginLeft: '16px'
                 }}>
                   {articles.map((article, index) => (
-                    <div 
+                    <div
                       key={index}
                       style={{
                         background: 'white',
@@ -71,6 +82,6 @@ function AdminPage() {
       )}
     </div>
   );
-};
+}
 
 export default AdminPage;

@@ -71,7 +71,7 @@ function Login() {
               onChange={(e) => setSelectedRole(e.target.value)}
             >
               <option value="regular">Regular User</option>
-              <option value="premium">Premium User</option>
+              <option value="admin">Admin</option>
             </select>
           </div>
 
